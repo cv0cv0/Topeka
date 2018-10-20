@@ -1,1 +1,0 @@
-/Users/guanrui/Documents/Code/Android/Topeka/buildSrc/build/classes/kotlin/main/DepsKt$registerClean$1.class:/Users/guanrui/Documents/Code/Android/Topeka/buildSrc/build/classes/kotlin/main/DepsKt.class

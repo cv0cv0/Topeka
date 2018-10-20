@@ -3,6 +3,7 @@ import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.tasks.Delete
 import org.gradle.kotlin.dsl.maven
 import org.gradle.kotlin.dsl.register
+import org.gradle.plugin.use.PluginDependenciesSpec
 
 val compileVersion = 28
 val minVersion = 23
@@ -31,6 +32,15 @@ val playAuth = "com.google.android.gms:play-services-auth:$playVersion"
 val junit = "junit:junit:$junitVersion"
 val runner = "androidx.test:runner:$runnerVersion"
 val espressoCore = "androidx.test.espresso:espresso-core:$espressoVersion"
+
+val PluginDependenciesSpec.`android-application`
+    get() = id("com.android.application")
+val PluginDependenciesSpec.`kotlin-android`
+    get() = id("kotlin-android")
+val PluginDependenciesSpec.`kotlin-android-extensions`
+    get() = id("kotlin-android-extensions")
+val PluginDependenciesSpec.`kotlin-kapt`
+    get() = id("kotlin-kapt")
 
 fun RepositoryHandler.aliyun() = maven("https://maven.aliyun.com/repository/public")
 fun Project.registerClean() = tasks.register("clean", Delete::class) {

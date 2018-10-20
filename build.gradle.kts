@@ -6,8 +6,8 @@ buildscript {
         aliyun()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:$studioVersion")
-        classpath(kotlin("gradle-plugin", kotlinVersion))
+        classpath(buildGradle)
+        classpath(kotlinGradle)
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -21,6 +21,4 @@ allprojects {
     }
 }
 
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
-}
+registerClean()

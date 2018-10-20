@@ -1,0 +1,13 @@
+plugins {
+    id("com.android.instantapp")
+}
+
+android {
+    defaultConfig {
+        missingDimensionStrategy "delivery", "instantapp"
+    }
+}
+
+dependencies {
+    implementation project(":base")
+}

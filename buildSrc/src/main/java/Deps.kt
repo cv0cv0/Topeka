@@ -6,7 +6,7 @@ import org.gradle.kotlin.dsl.register
 import org.gradle.plugin.use.PluginDependenciesSpec
 
 val compileVersion = 28
-val minVersion = 23
+val minVersion = 19
 val targetVersion = 28
 val studioVersion = "3.2.1"
 val kotlinVersion = "1.2.71"

@@ -29,6 +29,7 @@ android {
     productFlavors {
         instantapp {
             dimension "delivery"
+            minSdkVersion 21
         }
         app {
             dimension "delivery"

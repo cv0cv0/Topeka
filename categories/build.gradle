@@ -1,24 +1,15 @@
-plugins {
-    id("com.android.feature")
-    id("kotlin-android")
-    id("kotlin-android-extensions")
-}
+apply plugin: 'com.android.feature'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion DepsKt.compileVersion
-    baseFeature true
     defaultConfig {
         minSdkVersion DepsKt.minVersion
         targetSdkVersion DepsKt.targetVersion
-        versionCode = 1
-        versionName = "1.0"
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-        }
     }
     packagingOptions {
         pickFirst "LICENSE.txt"
@@ -42,18 +33,7 @@ android {
 }
 
 dependencies {
-    application project(":app")
-    feature project(":categories")
-    feature project(":quiz")
-
-    api DepsKt.stdlib
-    api DepsKt.appcompat
-    api DepsKt.design
-    api DepsKt.constraintLayout
-    api DepsKt.supportV4
-    api DepsKt.instantApp
-    implementation DepsKt.playAuth
-
+    implementation project(':base')
     testImplementation DepsKt.junit
     androidTestImplementation DepsKt.runner
     androidTestImplementation DepsKt.espressoCore

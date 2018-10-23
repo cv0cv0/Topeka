@@ -48,6 +48,8 @@ dependencies {
     feature project(":quiz")
 
     api DepsKt.stdlib
+    api DepsKt.ankoCommons
+    api DepsKt.ankoDesign
     api DepsKt.appcompat
     api DepsKt.design
     api DepsKt.constraintLayout

@@ -2,9 +2,12 @@ package me.gr.topeka.base.widget
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Outline
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.util.AttributeSet
+import android.view.View
+import android.view.ViewOutlineProvider
 import android.widget.Checkable
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
@@ -53,9 +56,24 @@ class AvatarView(context: Context, attrs: AttributeSet? = null, defStyleAttr: In
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if (isChecked) {
-            val drawable = ContextCompat.getDrawable(context, R.drawable.selector_avatar)
-            drawable?.setBounds(0, 0, width, height)
-            drawable?.draw(canvas)
+            ContextCompat.getDrawable(context, R.drawable.selector_avatar)?.apply {
+                setBounds(0, 0, width, height)
+                draw(canvas)
+            }
+        }
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (w > 0 && h > 0) {
+                outlineProvider = object : ViewOutlineProvider() {
+                    override fun getOutline(view: View, outline: Outline) {
+                        val size = Math.min(w, h)
+                        outline.setOval(0, 0, size, size)
+                    }
+                }
+            }
         }
     }
 }

@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/topeka_blank"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -13,5 +15,41 @@
         android:background="@color/topeka_primary"
         android:elevation="@dimen/elevation_header">
 
+        <me.gr.topeka.base.widget.AvatarView
+            android:id="@+id/avatar_view"
+            android:layout_width="@dimen/size_avatar_toolbar"
+            android:layout_height="@dimen/size_avatar_toolbar"
+            android:layout_marginEnd="@dimen/spacing_double"
+            android:transitionName="@string/transition_avatar" />
+
+        <TextView
+            android:id="@+id/title_text"
+            style="@style/Topeka.TextAppearance.Title.Inverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Title" />
+
+        <TextView
+            android:id="@+id/score_text"
+            style="@style/Topeka.TextAppearance.Title.Inverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="@dimen/spacing_micro"
+            android:layout_marginEnd="@dimen/spacing_micro"
+            tools:text="score" />
     </androidx.appcompat.widget.Toolbar>
+
+    <FrameLayout
+        android:id="@+id/category_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progress_circular"
+            android:layout_width="@dimen/size_fab"
+            android:layout_height="@dimen/size_fab"
+            android:layout_gravity="center"
+            android:indeterminateOnly="true" />
+    </FrameLayout>
 </LinearLayout>

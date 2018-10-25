@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import me.gr.topeka.base.R
 import me.gr.topeka.base.data.*
 import me.gr.topeka.base.ext.toIntArray
+import me.gr.topeka.base.ext.toStringArray
 import me.gr.topeka.base.ext.transaction
 import org.json.JSONArray
 import org.json.JSONObject
@@ -46,8 +47,8 @@ class TopekaDatabaseHelper private constructor(
     }
 
     private fun loadCategories(): MutableList<Category> = getCategoryCursor().use { cursor ->
-        MutableList(cursor.count) { i ->
-            cursor.moveToPosition(i)
+        MutableList(cursor.count) {
+            cursor.moveToPosition(it)
             getCategory(cursor)
         }
     }
@@ -74,8 +75,37 @@ class TopekaDatabaseHelper private constructor(
         )
     }
 
-    private fun getQuizzes(id: String): List<Quiz<*>> {
+    private fun getQuizzes(id: String): List<Quiz<*>> = readableDatabase.query(
+        QuizTable.NAME,
+        QuizTable.PROJECTION,
+        "${QuizTable.FK_CATEGORY} like ? ", arrayOf(id),
+        null, null, null
+    ).use { cursor ->
+        List(cursor.count) {
+            cursor.moveToPosition(it)
+            createQuizDueToType(cursor)
+        }
+    }
 
+    private fun createQuizDueToType(cursor: Cursor): Quiz<*> {
+        val type = cursor.getString(2)
+        val question = cursor.getString(3)
+        val answer = cursor.getString(4)
+        val options = cursor.getString(5)
+        val min = cursor.getInt(6)
+        val max = cursor.getInt(7)
+        val step = cursor.getInt(8)
+        val solved = parseSolved(cursor.getString(11))
+
+        return when (type) {
+            QuizType.ALPHA_PICKER.jsonName ->
+                AlphaPickerQuiz(question, answer, solved)
+            QuizType.FILL_BLANK.jsonName ->
+                FillBlankQuiz(question, answer, cursor.getString(9), cursor.getString(10), solved)
+            QuizType.FILL_TWO_BLANKS.jsonName ->
+                FillTwoBlanksQuiz(question, JSONArray(answer).toStringArray(), solved)
+            else -> throw IllegalArgumentException("Quiz type $type is not supported")
+        }
     }
 
     private fun parseSolved(solved: String?): Boolean {

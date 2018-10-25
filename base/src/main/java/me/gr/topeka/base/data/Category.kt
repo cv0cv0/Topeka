@@ -2,8 +2,9 @@ package me.gr.topeka.base.data
 
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
+import java.util.*
 
-data class Categor(
+data class Category(
     val name: String,
     val id: String,
     val theme: Theme,
@@ -40,5 +41,31 @@ data class Categor(
         scores[quizzes.indexOf(which)]
     } catch (e: IndexOutOfBoundsException) {
         0
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Category
+
+        if (name != other.name) return false
+        if (id != other.id) return false
+        if (theme != other.theme) return false
+        if (quizzes != other.quizzes) return false
+        if (!Arrays.equals(scores, other.scores)) return false
+        if (solved != other.solved) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + id.hashCode()
+        result = 31 * result + theme.hashCode()
+        result = 31 * result + quizzes.hashCode()
+        result = 31 * result + Arrays.hashCode(scores)
+        result = 31 * result + solved.hashCode()
+        return result
     }
 }

@@ -104,9 +104,46 @@ class TopekaDatabaseHelper private constructor(
                 FillBlankQuiz(question, answer, cursor.getString(9), cursor.getString(10), solved)
             QuizType.FILL_TWO_BLANKS.jsonName ->
                 FillTwoBlanksQuiz(question, JSONArray(answer).toStringArray(), solved)
+            QuizType.PICKER.jsonName ->
+                PickerQuiz(question, Integer.valueOf(answer), min, max, step, solved)
+            QuizType.TRUE_FALSE.jsonName ->
+                TrueFalseQuiz(question, answer == "true", solved)
+            QuizType.TOGGLE_TRANSLATE.jsonName ->
+                createToggleTranslateQuiz(question, answer, options, solved)
+            QuizType.FOUR_QUARTER.jsonName ->
+                createStringOptionsQuiz(answer, options) { answerArray, optionsArray ->
+                    FourQuarterQuiz(question, answerArray, optionsArray, solved)
+                }
+            QuizType.MULTI_SELECT.jsonName ->
+                createStringOptionsQuiz(answer, options) { answerArray, optionsArray ->
+                    MultiSelectQuiz(question, answerArray, optionsArray, solved)
+                }
+            QuizType.SINGLE_SELECT.jsonName, QuizType.SINGLE_SELECT_ITEM.jsonName ->
+                createStringOptionsQuiz(answer, options) { answerArray, optionsArray ->
+                    SelectItemQuiz(question, answerArray, optionsArray, solved)
+                }
             else -> throw IllegalArgumentException("Quiz type $type is not supported")
         }
     }
+
+    private fun createToggleTranslateQuiz(
+        question: String,
+        answer: String,
+        options: String,
+        solved: Boolean
+    ): Quiz<*> {
+        val answerArray = JSONArray(answer).toIntArray()
+        val optionsArrays = with(JSONArray(options).toStringArray()) {
+            Array(size) { JSONArray(this[it]).toStringArray() }
+        }
+        return ToggleTranslateQuiz(question, answerArray, optionsArrays, solved)
+    }
+
+    private fun <T : OptionsQuiz<String>> createStringOptionsQuiz(
+        answer: String,
+        options: String,
+        factory: (IntArray, Array<String>) -> T
+    ): T = factory(JSONArray(answer).toIntArray(), JSONArray(options).toStringArray())
 
     private fun parseSolved(solved: String?): Boolean {
         return solved?.length == 1 && Integer.valueOf(solved) == 1

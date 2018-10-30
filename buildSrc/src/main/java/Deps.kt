@@ -9,7 +9,7 @@ val compileVersion = 28
 val minVersion = 19
 val targetVersion = 28
 val studioVersion = "3.2.1"
-val kotlinVersion = "1.2.71"
+val kotlinVersion = "1.3.0"
 val ankoVersion = "0.10.7"
 val supportVersion = "1.0.0"
 val constraintVersion = "2.0.0-alpha2"
@@ -46,6 +46,6 @@ val PluginDependenciesSpec.`kotlin-kapt`
     get() = id("kotlin-kapt")
 
 fun RepositoryHandler.aliyun() = maven("https://maven.aliyun.com/repository/public")
-fun Project.registerClean() = tasks.register("clean", Delete::class) {
+fun Project.cleanTask() = tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }

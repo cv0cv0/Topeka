@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/avatar_choose_title"
+        style="@style/Topeka.TextAppearance.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_marginStart="@dimen/spacing_double"
+        android:gravity="center_vertical"
+        android:text="@string/choose_avatar" />
+
+    <GridView
+        android:id="@+id/avatar_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
+        android:fadeScrollbars="true"
+        android:listSelector="@android:color/transparent"
+        android:paddingStart="@dimen/spacing_double"
+        android:paddingEnd="@dimen/spacing_double"
+        android:paddingBottom="@dimen/spacing_double"
+        android:verticalSpacing="@dimen/spacing_double" />
+</LinearLayout>

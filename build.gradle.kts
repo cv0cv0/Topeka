@@ -21,4 +21,4 @@ allprojects {
     }
 }
 
-registerClean()
+cleanTask()

@@ -7,7 +7,6 @@ android {
     defaultConfig {
         minSdkVersion(minVersion)
         targetSdkVersion(targetVersion)
-        missingDimensionStrategy("delivery", "app")
     }
     buildTypes {
         getByName("release") {
@@ -19,4 +18,6 @@ android {
 
 dependencies {
     implementation(project(":base"))
+    implementation(project(":categories"))
+    implementation(project(":quiz"))
 }

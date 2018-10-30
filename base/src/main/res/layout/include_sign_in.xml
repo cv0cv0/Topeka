@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/sign_in_title"
+        style="@style/Topeka.TextAppearance.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_marginStart="@dimen/spacing_double"
+        android:gravity="center_vertical"
+        android:text="@string/sign_in" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_double"
+        android:layout_marginEnd="@dimen/spacing_double"
+        android:minHeight="?android:attr/actionBarSize"
+        android:transitionGroup="true">
+
+        <EditText
+            android:id="@+id/first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/first_name"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_double"
+        android:layout_marginEnd="@dimen/spacing_double"
+        android:minHeight="?android:attr/actionBarSize"
+        android:transitionGroup="true">
+
+        <EditText
+            android:id="@+id/last_initial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/last_initial"
+            android:imeOptions="actionDone"
+            android:inputType="textCapWords|textNoSuggestions"
+            android:maxLength="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

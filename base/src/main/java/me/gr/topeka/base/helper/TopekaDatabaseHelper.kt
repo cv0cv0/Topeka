@@ -1,5 +1,6 @@
 package me.gr.topeka.base.helper
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -14,11 +15,22 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.util.*
 
 class TopekaDatabaseHelper private constructor(
     private val context: Context
 ) : SQLiteOpenHelper(context.applicationContext, "topeka.db", null, 1) {
     private val categories: MutableList<Category> = loadCategories()
+
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        private var instance: TopekaDatabaseHelper? = null
+
+        fun getInstance(context: Context): TopekaDatabaseHelper =
+            instance ?: synchronized(TopekaDatabaseHelper::class) {
+                TopekaDatabaseHelper(context).also { instance = it }
+            }
+    }
 
     override fun onCreate(db: SQLiteDatabase) {
         with(db) {
@@ -30,6 +42,58 @@ class TopekaDatabaseHelper private constructor(
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
 
+    }
+
+    fun getCategories(fromDatabase: Boolean = false): List<Category> {
+        if (fromDatabase) {
+            categories.clear()
+            categories.addAll(loadCategories())
+        }
+        return categories
+    }
+
+    fun getCategoryWith(categoryId: String): Category = readableDatabase.query(
+        CategoryTable.NAME, CategoryTable.PROJECTION,
+        "${CategoryTable.COLUMN_ID}=?", arrayOf(categoryId),
+        null, null, null
+    ).use { getCategory(it) }
+
+    fun getScore() = categories.sumBy { it.score }
+
+    fun updateCategory(category: Category) {
+        val index = categories.indexOfFirst { it.id == category.id }
+        if (index != -1) {
+            with(categories) {
+                removeAt(index)
+                add(index, category)
+            }
+        }
+
+        val values = ContentValues().apply {
+            put(CategoryTable.COLUMN_SOLVED, category.solved)
+            put(CategoryTable.COLUMN_SCORES, Arrays.toString(category.scores))
+        }
+        writableDatabase.update(
+            CategoryTable.NAME, values,
+            "${CategoryTable.COLUMN_ID}=?", arrayOf(category.id)
+        )
+        updateQuizzes(writableDatabase, category.quizzes)
+    }
+
+    fun reset() = with(writableDatabase) {
+        delete(CategoryTable.NAME, null, null)
+        delete(QuizTable.NAME, null, null)
+        fillCategoriesAndQuizzes(this)
+    }
+
+    private fun updateQuizzes(db: SQLiteDatabase, quizzes: List<Quiz<*>>) = quizzes.forEach {
+        val values = ContentValues().apply {
+            put(QuizTable.COLUMN_SOLVED, it.solved)
+        }
+        db.update(
+            QuizTable.NAME, values,
+            "${QuizTable.COLUMN_ID}=?", arrayOf(it.question)
+        )
     }
 
     private fun fillCategoriesAndQuizzes(db: SQLiteDatabase) {

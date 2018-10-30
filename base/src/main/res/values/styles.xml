@@ -36,6 +36,8 @@
     </style>
 
     <style name="Topeka.SignInActivity" />
+    <style name="Topeka.CategorySelectionActivity" />
+    <style name="Topeka.QuizActivity"/>
 
     <style name="Topeka.Blue">
         <item name="colorPrimary">@color/theme_blue_primary</item>

@@ -8,9 +8,9 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import me.gr.topeka.base.R
 import me.gr.topeka.base.data.*
-import me.gr.topeka.base.ext.toIntArray
-import me.gr.topeka.base.ext.toStringArray
-import me.gr.topeka.base.ext.transaction
+import me.gr.topeka.base.extension.toIntArray
+import me.gr.topeka.base.extension.toStringArray
+import me.gr.topeka.base.extension.transaction
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader

@@ -13,7 +13,7 @@ import com.google.android.gms.auth.api.credentials.CredentialsOptions
 import com.google.android.gms.common.api.ResolvableApiException
 import me.gr.topeka.base.data.Avatar
 import me.gr.topeka.base.data.Player
-import me.gr.topeka.base.ext.db
+import me.gr.topeka.base.extension.db
 
 const val REQUEST_LOGIN = 704
 const val REQUEST_SAVE = 54

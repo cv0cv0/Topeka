@@ -1,4 +1,4 @@
-package me.gr.topeka.base.ext
+package me.gr.topeka.base.extension
 
 import android.content.Context
 import me.gr.topeka.base.helper.TopekaDatabaseHelper

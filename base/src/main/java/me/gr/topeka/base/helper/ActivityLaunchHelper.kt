@@ -16,7 +16,7 @@ private const val URL_QUIZ_BASE = "$URL_BASE/quiz"
 
 fun Context.quizIntent(category: Category) = baseIntent("$URL_QUIZ_BASE/${category.id}")
 
-fun Activity.luanchSignIn(isEditMode: Boolean) = ActivityCompat.startActivity(
+fun Activity.launchSignIn(isEditMode: Boolean) = ActivityCompat.startActivity(
     this,
     signInIntent(isEditMode),
     ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle()

@@ -2,17 +2,22 @@ package me.gr.topeka.base.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.GridView
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.include_avatars.*
 import kotlinx.android.synthetic.main.include_floating.*
 import kotlinx.android.synthetic.main.include_sign_in.*
 import me.gr.topeka.base.R
+import me.gr.topeka.base.adapter.AvatarAdapter
 import me.gr.topeka.base.data.Avatar
 import me.gr.topeka.base.data.Player
 import me.gr.topeka.base.helper.*
+import me.gr.topeka.base.util.SimpleTextWatcher
 
 class SignInFragment : Fragment() {
     private var player: Player? = null
@@ -34,8 +39,8 @@ class SignInFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         savedInstanceState?.run {
-            val selectedAvatarIndex = getInt(SELECTED_AVATAR_INDEX, -1)
-            if (selectedAvatarIndex != -1) {
+            val selectedAvatarIndex = getInt(SELECTED_AVATAR_INDEX)
+            if (selectedAvatarIndex != GridView.INVALID_POSITION) {
                 selectedAvatar = Avatar.values()[selectedAvatarIndex]
             }
         }
@@ -53,9 +58,26 @@ class SignInFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val contentView=inflater.inflate(R.layout.fragment_sign_in,container,false)
-        return contentView
+    ): View? = inflater.inflate(R.layout.fragment_sign_in, container, false).apply {
+        onLayoutChange {
+            with(avatar_grid) {
+                adapter = AvatarAdapter()
+                numColumns = calculateSpanCount()
+                onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+                    selectedAvatar = Avatar.values()[position]
+                    showDoneFloating()
+                }
+                selectedAvatar?.let { selectAvatar(it) }
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (isEditMode || player?.valid() == true) {
+            initContentViews()
+            initContents()
+        }
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -71,6 +93,35 @@ class SignInFragment : Fragment() {
                 }
             })
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(SELECTED_AVATAR_INDEX, avatar_grid.checkedItemPosition)
+        super.onSaveInstanceState(outState)
+    }
+
+    private fun initContentViews() {
+        val textWatcher = object : SimpleTextWatcher() {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (s.isEmpty()) done_floating.hide()
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                showDoneFloating()
+            }
+        }
+
+        first_name.addTextChangedListener(textWatcher)
+        last_initial.addTextChangedListener(textWatcher)
+        done_floating.setOnClickListener {
+
+        }
+    }
+
+    private fun calculateSpanCount(): Int {
+        val avatarSize = resources.getDimensionPixelSize(R.dimen.size_avatar)
+        val avatarPadding = resources.getDimensionPixelSize(R.dimen.spacing_double)
+        return avatar_grid.width / (avatarSize + avatarPadding)
     }
 
     private fun initContents() = player?.run {
@@ -106,7 +157,7 @@ class SignInFragment : Fragment() {
 
     private fun selectAvatar(avatar: Avatar) {
         selectedAvatar = avatar
-        avatar_grid.run {
+        with(avatar_grid) {
             requestFocusFromTouch()
             setItemChecked(avatar.ordinal, true)
         }

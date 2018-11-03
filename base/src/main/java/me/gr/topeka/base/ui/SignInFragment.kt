@@ -1,14 +1,19 @@
 package me.gr.topeka.base.ui
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
+import android.transition.Transition
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.GridView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.include_avatars.*
 import kotlinx.android.synthetic.main.include_floating.*
 import kotlinx.android.synthetic.main.include_sign_in.*
@@ -17,9 +22,12 @@ import me.gr.topeka.base.adapter.AvatarAdapter
 import me.gr.topeka.base.data.Avatar
 import me.gr.topeka.base.data.Player
 import me.gr.topeka.base.helper.*
-import me.gr.topeka.base.util.SimpleTextWatcher
+import me.gr.topeka.base.util.TextWatcherAdapter
+import me.gr.topeka.base.util.TransitionListenerAdapter
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.debug
 
-class SignInFragment : Fragment() {
+class SignInFragment : Fragment(), AnkoLogger {
     private var player: Player? = null
     private var selectedAvatar: Avatar? = null
 
@@ -101,7 +109,7 @@ class SignInFragment : Fragment() {
     }
 
     private fun initContentViews() {
-        val textWatcher = object : SimpleTextWatcher() {
+        val textWatcher = object : TextWatcherAdapter() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.isEmpty()) done_floating.hide()
             }
@@ -114,7 +122,40 @@ class SignInFragment : Fragment() {
         first_name.addTextChangedListener(textWatcher)
         last_initial.addTextChangedListener(textWatcher)
         done_floating.setOnClickListener {
+            val firstName = first_name.text.toString()
+            val lastInitial = last_initial.text.toString()
+            activity?.let { activity ->
+                login.save(activity, Player(firstName, lastInitial, selectedAvatar)) {
+                    debug("Saving login info successful.")
+                }
+            }
+            done_floating.hide(object : FloatingActionButton.OnVisibilityChangedListener() {
+                override fun onHidden(fab: FloatingActionButton?) {
+                    performSignInTransition(avatar_grid.getChildAt(selectedAvatar!!.ordinal))
+                }
+            })
+        }
+    }
 
+    private fun performSignInTransition(v: View? = null) {
+        if (v == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            navigateToCategory()
+            return
+        }
+
+        activity?.run {
+            window.sharedElementExitTransition.addListener(object : TransitionListenerAdapter() {
+                override fun onTransitionEnd(transition: Transition) {
+                    finish()
+                }
+            })
+            val pairs = TransitionHelper.createSafeTransitionParticipants(
+                this,
+                true,
+                Pair(v, getString(R.string.transition_avatar))
+            )
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *pairs)
+            launchCategory(options)
         }
     }
 

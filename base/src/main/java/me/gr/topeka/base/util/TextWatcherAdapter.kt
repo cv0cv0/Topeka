@@ -3,7 +3,7 @@ package me.gr.topeka.base.util
 import android.text.Editable
 import android.text.TextWatcher
 
-open class SimpleTextWatcher : TextWatcher {
+open class TextWatcherAdapter : TextWatcher {
     override fun afterTextChanged(s: Editable) {}
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}

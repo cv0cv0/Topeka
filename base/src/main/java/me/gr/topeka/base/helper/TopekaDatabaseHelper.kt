@@ -6,11 +6,11 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import androidx.core.database.sqlite.transaction
 import me.gr.topeka.base.R
 import me.gr.topeka.base.data.*
 import me.gr.topeka.base.extension.toIntArray
 import me.gr.topeka.base.extension.toStringArray
-import me.gr.topeka.base.extension.transaction
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader

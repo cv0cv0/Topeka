@@ -36,13 +36,15 @@ dependencies {
     feature(project(":categories"))
     feature(project(":quiz"))
 
+    api(stdlib)
+    api(ankoCommons)
+    api(ankoDesign)
+    api(ktxCore)
+    api(ktxFragment)
     api(appcompat)
     api(design)
     api(constraintLayout)
     api(supportV4)
-    api(stdlib)
-    api(ankoCommons)
-    api(ankoDesign)
     api(instantApp)
     implementation(playAuth)
 

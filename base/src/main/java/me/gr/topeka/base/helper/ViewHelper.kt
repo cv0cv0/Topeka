@@ -5,15 +5,15 @@ import android.graphics.drawable.ColorDrawable
 import android.util.Property
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.core.view.updatePaddingRelative
 
 val View.PROPERTY_PADDING_START
     get() = object : IntProperty<View>("paddingStart") {
         override fun get(`object`: View?): Int = paddingStart
 
-        override fun set(`object`: View?, value: Int) = setPaddingStart(value)
+        override fun set(`object`: View?, value: Int) = updatePaddingRelative(start = value)
     }
 
 val View.PROPERTY_BACKGROUND_COLOR
@@ -43,32 +43,6 @@ val TextView.PROPERTY_TEXT_SIZE
         override fun set(`object`: TextView?, value: Float) =
             setTextSize(TypedValue.COMPLEX_UNIT_PX, value)
     }
-
-fun View.setPaddingStart(paddingStart: Int) =
-    setPaddingRelative(paddingStart, paddingTop, paddingEnd, paddingBottom)
-
-inline fun <T : View> T.onLayoutChange(crossinline action: T.() -> Unit) =
-    addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-        override fun onLayoutChange(
-            v: View?,
-            left: Int, top: Int, right: Int, bottom: Int,
-            oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int
-        ) {
-            removeOnLayoutChangeListener(this)
-            action()
-        }
-    })
-
-inline fun View.beforeDrawing(
-    drawAfterAction: Boolean = true,
-    crossinline action: View.() -> Unit
-) = viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
-    override fun onPreDraw(): Boolean {
-        viewTreeObserver.removeOnPreDrawListener(this)
-        action()
-        return drawAfterAction
-    }
-})
 
 abstract class IntProperty<T>(name: String) : Property<T, Int>(Int::class.java, name)
 

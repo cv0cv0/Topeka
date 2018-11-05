@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.GridView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.core.view.doOnNextLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.include_avatars.*
@@ -67,7 +68,7 @@ class SignInFragment : Fragment(), AnkoLogger {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_sign_in, container, false).apply {
-        onLayoutChange {
+        doOnNextLayout {
             with(avatar_grid) {
                 adapter = AvatarAdapter()
                 numColumns = calculateSpanCount()
@@ -75,7 +76,7 @@ class SignInFragment : Fragment(), AnkoLogger {
                     selectedAvatar = Avatar.values()[position]
                     showDoneFloating()
                 }
-                selectedAvatar?.let { selectAvatar(it) }
+                selectedAvatar?.let { avatar -> selectAvatar(avatar) }
             }
         }
     }

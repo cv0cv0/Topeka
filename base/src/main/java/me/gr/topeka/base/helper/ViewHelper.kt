@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.view.updatePaddingRelative
+import me.gr.topeka.base.R
 
 val View.PROPERTY_PADDING_START
     get() = object : IntProperty<View>("paddingStart") {
@@ -19,7 +20,7 @@ val View.PROPERTY_PADDING_START
 val View.PROPERTY_BACKGROUND_COLOR
     get() = object : IntProperty<View>("backgroundColor") {
         override fun get(`object`: View?): Int =
-            (background as? ColorDrawable)?.color ?: Color.TRANSPARENT
+            (background.mutate() as? ColorDrawable)?.color ?: Color.TRANSPARENT
 
         override fun set(`object`: View?, value: Int) = setBackgroundColor(value)
     }

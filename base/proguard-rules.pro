@@ -148,7 +148,7 @@
 # rules copied from: categories/build/intermediates/proguard-rules/feature/release/aapt_rules.txt
 #
 
-# Referenced at /usr/local/google/home/wkal/StudioProjects/topeka-devrel/categories/src/main/res/layout/fragment_categories.xml:17
+# Referenced at /usr/local/google/home/wkal/StudioProjects/topeka-devrel/categories/src/main/res/layout/fragment_category.xml:17
 -keep class android.support.v7.widget.RecyclerView { <init>(...); }
 
 # Referenced at /usr/local/google/home/wkal/StudioProjects/topeka-devrel/categories/src/main/res/layout/activity_category_selection.xml:25

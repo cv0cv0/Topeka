@@ -22,8 +22,8 @@
     </style>
 
     <style name="Topeka.SignInActivity">
-        <!--<item name="android:windowEnterTransition">@transition/signin_enter</item>-->
-        <!--<item name="android:windowExitTransition">@transition/signin_exit</item>-->
+        <item name="android:windowEnterTransition">@transition/sign_in_enter</item>
+        <item name="android:windowExitTransition">@transition/sign_in_exit</item>
     </style>
 
 

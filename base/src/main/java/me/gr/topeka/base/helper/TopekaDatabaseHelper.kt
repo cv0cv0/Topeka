@@ -52,9 +52,9 @@ class TopekaDatabaseHelper private constructor(
         return categories
     }
 
-    fun getCategoryWith(categoryId: String): Category = readableDatabase.query(
+    fun getCategoryById(id: String): Category = readableDatabase.query(
         CategoryTable.NAME, CategoryTable.PROJECTION,
-        "${CategoryTable.COLUMN_ID}=?", arrayOf(categoryId),
+        "${CategoryTable.COLUMN_ID}=?", arrayOf(id),
         null, null, null
     ).use { getCategory(it) }
 

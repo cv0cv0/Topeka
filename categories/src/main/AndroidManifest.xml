@@ -5,7 +5,7 @@
 
     <application tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".MainActivity"
+            android:name=".CategoryActivity"
             android:theme="@style/Topeka.CategorySelectionActivity">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />

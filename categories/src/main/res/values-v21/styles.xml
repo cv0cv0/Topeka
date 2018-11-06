@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Topeka.CategorySelectionActivity">
         <item name="android:windowSharedElementEnterTransition">@transition/category_shared_enter</item>
         <item name="android:windowEnterTransition">@transition/category_enter</item>

@@ -4,13 +4,13 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
-import android.transition.Transition
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.GridView
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.transition.doOnEnd
 import androidx.core.util.Pair
 import androidx.core.view.doOnNextLayout
 import androidx.fragment.app.Fragment
@@ -24,7 +24,6 @@ import me.gr.topeka.base.data.Avatar
 import me.gr.topeka.base.data.Player
 import me.gr.topeka.base.helper.*
 import me.gr.topeka.base.util.TextWatcherAdapter
-import me.gr.topeka.base.util.TransitionListenerAdapter
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
 
@@ -145,11 +144,7 @@ class SignInFragment : Fragment(), AnkoLogger {
         }
 
         activity?.run {
-            window.sharedElementExitTransition.addListener(object : TransitionListenerAdapter() {
-                override fun onTransitionEnd(transition: Transition) {
-                    finish()
-                }
-            })
+            window.sharedElementExitTransition.doOnEnd { finish() }
             val pairs = TransitionHelper.createSafeTransitionParticipants(
                 this,
                 true,

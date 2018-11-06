@@ -7,6 +7,7 @@ android {
     defaultConfig {
         minSdkVersion(minVersion)
         targetSdkVersion(targetVersion)
+        missingDimensionStrategy("delivery","app")
     }
     buildTypes {
         getByName("release") {

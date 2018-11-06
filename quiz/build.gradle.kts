@@ -28,6 +28,17 @@ android {
     splits {
         density { isEnable = true }
     }
+
+    flavorDimensions("delivery")
+    productFlavors {
+        create("app"){
+            setDimension("delivery")
+        }
+        create("instantapp"){
+            setDimension("delivery")
+            minSdkVersion(21)
+        }
+    }
 }
 
 dependencies {

@@ -24,7 +24,7 @@ data class Player(
         return "$firstName $lastInitial"
     }
 
-    fun toCredential() = Credential.Builder(email)
+    fun toCredential(): Credential = Credential.Builder(email)
         .setName(toString())
         .build()
 

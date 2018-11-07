@@ -5,7 +5,7 @@
 
     <application tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".MainActivity"
+            android:name=".QuizActivity"
             android:launchMode="singleTop"
             android:theme="@style/Topeka.QuizActivity"
             android:windowSoftInputMode="adjustPan">

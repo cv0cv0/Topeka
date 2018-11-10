@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".QuizActivity">
 
     <LinearLayout
@@ -20,48 +20,44 @@
                 android:id="@+id/back_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?selectableItemBackgroundBorderless"
                 android:padding="16dp"
                 android:src="@drawable/ic_arrow_back"
-                android:tint="?android:textColorPrimary"
-                android:background="?selectableItemBackgroundBorderless" />
+                android:tint="?android:textColorPrimary" />
 
             <TextView
                 android:id="@+id/title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/Topeka.TextAppearance.Title"
-                android:transitionName="@string/transition_toolbar"
                 android:layout_gravity="center_vertical"
                 android:paddingBottom="4dp"
-                tools:text="Topeka"/>
+                android:textAppearance="@style/Topeka.TextAppearance.Title"
+                android:transitionName="@string/transition_toolbar"
+                tools:text="Topeka" />
         </LinearLayout>
 
         <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/image_view"
+                android:layout_gravity="center"
                 android:scaleX="0.7"
                 android:scaleY="0.7"
-                tools:src="@drawable/image_category_sports"
-                android:layout_gravity="center"/>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/fragment_container"/>
+                tools:src="@drawable/image_category_sports" />
         </FrameLayout>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/quiz_floating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:fabSize="normal"
-        android:id="@+id/quiz_floating"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/spacing_double"
-        android:transitionName="@string/transition_avatar"/>
+        android:transitionName="@string/transition_avatar"
+        app:fabSize="normal" />
 </merge>

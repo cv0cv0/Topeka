@@ -12,25 +12,25 @@ import org.jetbrains.anko.warn
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class SharedTextCallback(
-    private val initialTextSize:Float,
-    private val initialPaddingStart:Int
-):SharedElementCallback(),AnkoLogger {
-    private var targetTextSize=0f
-    private var targetPaddingStart=0
+    private val initialTextSize: Float,
+    private val initialPaddingStart: Int
+) : SharedElementCallback(), AnkoLogger {
+    private var targetTextSize = 0f
+    private var targetPaddingStart = 0
 
     override fun onSharedElementStart(
         sharedElementNames: MutableList<String>?,
         sharedElements: MutableList<View>?,
         sharedElementSnapshots: MutableList<View>?
     ) {
-        val targetView=sharedElements?.first { it is TextView } as TextView?
-        if (targetView==null){
+        val targetView = sharedElements?.first { it is TextView } as TextView?
+        if (targetView == null) {
             warn("onSharedElementStart: No shared TextView, skipping.")
             return
         }
-        targetTextSize=targetView.textSize
-        targetPaddingStart=targetView.paddingStart
-        targetView.setTextSize(TypedValue.COMPLEX_UNIT_PX,initialTextSize)
+        targetTextSize = targetView.textSize
+        targetPaddingStart = targetView.paddingStart
+        targetView.setTextSize(TypedValue.COMPLEX_UNIT_PX, initialTextSize)
         targetView.updatePaddingRelative(start = initialPaddingStart)
     }
 
@@ -39,6 +39,6 @@ class SharedTextCallback(
         sharedElements: MutableList<View>?,
         sharedElementSnapshots: MutableList<View>?
     ) {
-
+        val ininitalView = sharedElements?.first { it is TextView } as TextView?
     }
 }

@@ -39,6 +39,17 @@ class SharedTextCallback(
         sharedElements: MutableList<View>?,
         sharedElementSnapshots: MutableList<View>?
     ) {
-        val ininitalView = sharedElements?.first { it is TextView } as TextView?
+        val initialView = sharedElements?.first { it is TextView } as TextView?
+        if (initialView == null) {
+            warn("onSharedElementEnd: No shared TextView, skipping.")
+            return
+        }
+        val spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        with(initialView) {
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, targetTextSize)
+            updatePaddingRelative(start = targetPaddingStart)
+            measure(spec, spec)
+            requestLayout()
+        }
     }
 }

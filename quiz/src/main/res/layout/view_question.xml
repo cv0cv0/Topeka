@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/question_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?colorPrimary"
+    android:elevation="@dimen/elevation_header"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/min_height_question"
+    android:padding="@dimen/spacing_double"
+    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+    android:textColor="?android:attr/textColorPrimary" />

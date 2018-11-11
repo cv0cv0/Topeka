@@ -69,7 +69,7 @@ class SignInFragment : Fragment(), AnkoLogger {
     ): View? = inflater.inflate(R.layout.fragment_sign_in, container, false).apply {
         doOnNextLayout {
             with(avatar_grid) {
-                adapter = AvatarAdapter()
+                adapter = AvatarAdapter(context)
                 numColumns = calculateSpanCount()
                 onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
                     selectedAvatar = Avatar.values()[position]

@@ -16,27 +16,30 @@ abstract class AbsQuizView<out Q : Quiz<*>>(
     val quiz: Q
 ) : FrameLayout(context) {
     private val inflater = LayoutInflater.from(context)
-    protected val contentView by lazy(LazyThreadSafetyMode.NONE) {
-        val container = LinearLayout(context).apply {
-            id = R_base.id.absQuizViewContainer
-            orientation = LinearLayout.VERTICAL
-        }
-        onCreateView().apply {
-            id = R_base.id.quiz_content
-            if (this is ViewGroup) {
-                clipToPadding = false
-            }
-            minimumHeight=resources.getDimensionPixelSize(R_base.dimen.min_height_question)
-        }
-    }
+    protected val contentView = onCreateView()
 
     companion object {
         const val ANSWER = "answer"
     }
 
-    abstract fun onCreateView(): View
+    protected abstract fun onCreateView(): View
 
     init {
+        id = quiz.id
+        with(contentView) {
+            id = R_base.id.quiz_content
+            if (this is ViewGroup) {
+                clipToPadding = false
+            }
+            minimumHeight = resources.getDimensionPixelSize(R_base.dimen.min_height_question)
+        }
+        buildView()
+    }
 
+    private fun buildView() {
+        val container = LinearLayout(context).apply {
+            id = R_base.id.absQuizViewContainer
+            orientation = LinearLayout.VERTICAL
+        }
     }
 }

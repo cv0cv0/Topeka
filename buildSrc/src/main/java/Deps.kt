@@ -8,7 +8,7 @@ import org.gradle.plugin.use.PluginDependenciesSpec
 val compileVersion = 28
 val minVersion = 19
 val targetVersion = 28
-val studioVersion = "3.3.0-beta03"
+val studioVersion = "3.3.0-beta04"
 val kotlinVersion = "1.3.0"
 val ankoVersion = "0.10.7"
 val ktxCoreVersion="1.0.1"

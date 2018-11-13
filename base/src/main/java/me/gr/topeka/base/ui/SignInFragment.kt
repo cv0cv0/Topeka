@@ -23,7 +23,7 @@ import me.gr.topeka.base.adapter.AvatarAdapter
 import me.gr.topeka.base.data.Avatar
 import me.gr.topeka.base.data.Player
 import me.gr.topeka.base.helper.*
-import me.gr.topeka.base.util.TextWatcherAdapter
+import me.gr.topeka.base.text.TextWatcherAdapter
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
 

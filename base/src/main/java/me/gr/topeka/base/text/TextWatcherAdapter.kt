@@ -1,4 +1,4 @@
-package me.gr.topeka.base.util
+package me.gr.topeka.base.text
 
 import android.text.Editable
 import android.text.TextWatcher

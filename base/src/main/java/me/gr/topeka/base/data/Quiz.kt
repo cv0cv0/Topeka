@@ -9,11 +9,7 @@ abstract class Quiz<A> internal constructor(
 
     abstract val type: QuizType
 
-    open fun isCorrect(answer: A?): Boolean {
-        return this.answer == answer
-    }
+    open fun isCorrect(answer: A?): Boolean = this.answer == answer
 
-    override fun toString(): String {
-        return "$type: $question"
-    }
+    override fun toString(): String = "$type: $question"
 }

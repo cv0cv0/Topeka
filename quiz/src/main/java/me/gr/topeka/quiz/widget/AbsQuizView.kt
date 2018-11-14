@@ -34,18 +34,15 @@ abstract class AbsQuizView<out Q : Quiz<*>>(
         setOnClickListener {
             submitAnswer()
             isEnabled = false
-            if (imm.isAcceptingText) {
-                imm.hideSoftInputFromWindow(it.windowToken, 0)
-            }
         }
         hide()
     }
 
     private var isAnswered = false
-    protected val contentView = onCreateView()
 
-    abstract var userInput: Bundle
+    protected val contentView = onCreateView()
     protected abstract val isCorrect: Boolean
+    abstract var userInput: Bundle
 
     companion object {
         const val ANSWER = "answer"
@@ -73,6 +70,9 @@ abstract class AbsQuizView<out Q : Quiz<*>>(
 
     protected open fun submitAnswer() {
         quiz.solved = true
+        if (imm.isAcceptingText) {
+            imm.hideSoftInputFromWindow(windowToken, 0)
+        }
         // TODO
     }
 

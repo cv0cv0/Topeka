@@ -167,7 +167,7 @@ class TopekaDatabaseHelper private constructor(
             QuizType.FILL_BLANK.jsonName ->
                 FillBlankQuiz(question, answer, cursor.getString(9), cursor.getString(10), solved)
             QuizType.FILL_TWO_BLANKS.jsonName ->
-                FillTwoBlanksQuiz(question, JSONArray(answer).toStringArray(), solved)
+                FillTwoBlankQuiz(question, JSONArray(answer).toStringArray(), solved)
             QuizType.PICKER.jsonName ->
                 PickerQuiz(question, Integer.valueOf(answer), min, max, step, solved)
             QuizType.TRUE_FALSE.jsonName ->

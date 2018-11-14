@@ -5,7 +5,7 @@ enum class QuizType(val jsonName: String, val type: Class<out Quiz<*>>) {
 
     FILL_BLANK("fill-blank", FillBlankQuiz::class.java),
 
-    FILL_TWO_BLANKS("fill-two-blanks", FillTwoBlanksQuiz::class.java),
+    FILL_TWO_BLANKS("fill-two-blanks", FillTwoBlankQuiz::class.java),
 
     FOUR_QUARTER("four-quarter", FourQuarterQuiz::class.java),
 

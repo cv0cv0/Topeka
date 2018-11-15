@@ -29,7 +29,7 @@ class FourQuarterQuizView(
             if (selectedPosition != -1) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && isLaidOut) {
                     setUpUserInput()
-                }else{
+                } else {
                     doOnNextLayout { setUpUserInput() }
                 }
             }
@@ -48,13 +48,9 @@ class FourQuarterQuizView(
         return gridView
     }
 
-    private fun setUpUserInput() = with(gridView) {
-        performItemClick(
-            getChildAt(selectedPosition),
-            selectedPosition,
-            selectedPosition.toLong()
-        )
-        getChildAt(selectedPosition).isSelected = true
-        setSelection(selectedPosition)
-    }
+    private fun setUpUserInput() = gridView.performItemClick(
+        gridView.getChildAt(selectedPosition),
+        selectedPosition,
+        gridView.adapter.getItemId(selectedPosition)
+    )
 }

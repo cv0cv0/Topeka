@@ -23,7 +23,7 @@ class MultiSelectQuizView(
         get() = Bundle().apply { putBooleanArray(ANSWER, getAnswers()) }
         set(value) {
             val answers = value.getBooleanArray(ANSWER) ?: return
-            answers.indices.forEach { listView.setItemChecked(it, answers[it]) }
+            repeat(answers.size) { listView.setItemChecked(it, answers[it]) }
         }
 
     override fun onCreateView(): View {

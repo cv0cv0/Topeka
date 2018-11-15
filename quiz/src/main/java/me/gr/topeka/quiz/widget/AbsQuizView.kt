@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnNextLayout
+import androidx.core.view.updateMarginsRelative
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import kotlinx.android.synthetic.main.view_question.view.*
 import me.gr.topeka.base.data.Category
@@ -116,9 +117,11 @@ abstract class AbsQuizView<out Q : Quiz<*>>(
     private fun addFloatingButton() {
         val size = resources.getDimensionPixelSize(R_base.dimen.size_fab)
         val params = FrameLayout.LayoutParams(size, size, Gravity.TOP or Gravity.END).apply {
-            marginEnd = doubleSpacing
-            bottomMargin = doubleSpacing
-            topMargin = question_text.bottom - size / 2
+            updateMarginsRelative(
+                top = question_text.bottom - size / 2,
+                end = doubleSpacing,
+                bottom = doubleSpacing
+            )
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 topMargin -= answerSubmit.paddingTop / 2
             }

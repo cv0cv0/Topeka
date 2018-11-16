@@ -19,6 +19,7 @@ data class Category(
     }
 
     companion object {
+        const val ID = "category_id"
         private const val SCORE = 8
         private const val NO_SCORE = 0
     }

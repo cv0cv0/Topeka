@@ -53,11 +53,10 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/quiz_floating"
+        android:id="@+id/play_floating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/spacing_double"
-        android:transitionName="@string/transition_avatar"
-        app:fabSize="normal" />
+        android:transitionName="@string/transition_avatar" />
 </merge>

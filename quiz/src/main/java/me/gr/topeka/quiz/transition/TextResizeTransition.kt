@@ -12,8 +12,8 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ViewGroup
 import android.widget.TextView
-import me.gr.topeka.base.helper.PROPERTY_PADDING_START
-import me.gr.topeka.base.helper.PROPERTY_TEXT_SIZE
+import me.gr.topeka.base.extension.PADDING_START
+import me.gr.topeka.base.extension.TEXT_SIZE
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class TextResizeTransition(context: Context, attrs: AttributeSet) : Transition(context, attrs) {
@@ -54,13 +54,13 @@ class TextResizeTransition(context: Context, attrs: AttributeSet) : Transition(c
             playTogether(
                 ObjectAnimator.ofFloat(
                     targetView,
-                    targetView.PROPERTY_TEXT_SIZE,
+                    targetView.TEXT_SIZE,
                     initialTextSize,
                     targetTextSize
                 ),
                 ObjectAnimator.ofInt(
                     targetView,
-                    targetView.PROPERTY_PADDING_START,
+                    targetView.PADDING_START,
                     initialPaddingStart,
                     targetPaddingStart
                 )

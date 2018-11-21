@@ -1,4 +1,4 @@
-package me.gr.topeka.base.helper
+package me.gr.topeka.base.extension
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,16 +8,15 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.view.updatePaddingRelative
-import me.gr.topeka.base.R
 
-val View.PROPERTY_PADDING_START
+val View.PADDING_START
     get() = object : IntProperty<View>("paddingStart") {
         override fun get(`object`: View?): Int = paddingStart
 
         override fun set(`object`: View?, value: Int) = updatePaddingRelative(start = value)
     }
 
-val View.PROPERTY_BACKGROUND_COLOR
+val View.BACKGROUND_COLOR
     get() = object : IntProperty<View>("backgroundColor") {
         override fun get(`object`: View?): Int =
             (background.mutate() as? ColorDrawable)?.color ?: Color.TRANSPARENT
@@ -25,7 +24,7 @@ val View.PROPERTY_BACKGROUND_COLOR
         override fun set(`object`: View?, value: Int) = setBackgroundColor(value)
     }
 
-val FrameLayout.PROPERTY_FOREGROUND_COLOR
+val FrameLayout.FOREGROUND_COLOR
     get() = object : IntProperty<FrameLayout>("foregroundColor") {
         override fun get(`object`: FrameLayout?): Int =
             (foreground as? ColorDrawable)?.color ?: Color.TRANSPARENT
@@ -37,7 +36,7 @@ val FrameLayout.PROPERTY_FOREGROUND_COLOR
         }
     }
 
-val TextView.PROPERTY_TEXT_SIZE
+val TextView.TEXT_SIZE
     get() = object : FloatProperty<TextView>("textSize") {
         override fun get(`object`: TextView?): Float = textSize
 

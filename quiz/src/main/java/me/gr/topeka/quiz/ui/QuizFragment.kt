@@ -6,15 +6,13 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterViewAnimator
 import android.widget.ListView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.doOnNextLayout
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
+import kotlinx.android.synthetic.main.fragment_quiz.*
 import me.gr.topeka.base.data.Category
 import me.gr.topeka.base.extension.db
 import me.gr.topeka.base.helper.requestLogin
@@ -26,20 +24,6 @@ import me.gr.topeka.quiz.widget.AbsQuizView
 import me.gr.topeka.quiz.widget.SolveStateListener
 
 class QuizFragment : Fragment() {
-    val quizView by lazy(LazyThreadSafetyMode.NONE) {
-        view!!.findViewById<AdapterViewAnimator>(R.id.quiz_view)
-    }
-    private val progressText by lazy(LazyThreadSafetyMode.NONE) {
-        view!!.findViewById<TextView>(R.id.progress_text)
-    }
-    private val progressBar by lazy(LazyThreadSafetyMode.NONE) {
-        view!!.findViewById<ProgressBar>(R.id.progress_horizontal).apply {
-            max = category.quizzes.size
-        }
-    }
-    private val quizAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        QuizAdapter(context!!, category)
-    }
     private val scoreAdapter by lazy(LazyThreadSafetyMode.NONE) {
         ScoreAdapter(context!!, category)
     }
@@ -66,6 +50,7 @@ class QuizFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        progress_horizontal.max = category.quizzes.size
         setProgress(category.firstUnsolvedQuizPosition)
         decideViewDisplay()
         setQuizViewAnimation()
@@ -74,7 +59,7 @@ class QuizFragment : Fragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        val focusChild = quizView.focusedChild
+        val focusChild = quiz_view.focusedChild
         if (focusChild is ViewGroup) {
             val currentView = focusChild.getChildAt(0)
             if (currentView is AbsQuizView<*>) {
@@ -86,7 +71,7 @@ class QuizFragment : Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
-            quizView.doOnNextLayout {
+            quiz_view.doOnNextLayout {
                 val currentView = (it as ViewGroup).getChildAt(0)
                 if (currentView is ViewGroup) {
                     val child = currentView.getChildAt(0)
@@ -100,10 +85,10 @@ class QuizFragment : Fragment() {
     }
 
     fun showNextPage(): Boolean {
-        val nextItem = quizView.displayedChild + 1
-        if (nextItem < quizView.adapter.count) {
+        val nextItem = quiz_view.displayedChild + 1
+        if (nextItem < quiz_view.adapter.count) {
             setProgress(nextItem)
-            quizView.showNext()
+            quiz_view.showNext()
             activity!!.db.updateCategory(category)
             return true
         }
@@ -112,13 +97,10 @@ class QuizFragment : Fragment() {
         return false
     }
 
-    fun hasSolveStateListener()=solveStateListener!=null
-
-    fun setSolveStateListener(solveStateListener: SolveStateListener){
-        this.solveStateListener=solveStateListener
-        if (category.solved){
-            solveStateListener.onSolved()
-        }
+    fun submitAnswer() {
+        quiz_view.isGone = true
+        score_list.isGone = false
+        score_list.adapter = scoreAdapter
     }
 
     private fun setAvatarDrawable() {
@@ -139,8 +121,8 @@ class QuizFragment : Fragment() {
 
     private fun setQuizViewAnimation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            quizView.setInAnimation(activity, R.animator.slide_in_bottom)
-            quizView.setOutAnimation(activity, R.animator.slide_out_top)
+            quiz_view.setInAnimation(activity, R.animator.slide_in_bottom)
+            quiz_view.setOutAnimation(activity, R.animator.slide_out_top)
         }
     }
 
@@ -150,17 +132,17 @@ class QuizFragment : Fragment() {
                 adapter = scoreAdapter
                 isGone = false
             }
-            quizView.isGone = true
+            quiz_view.isGone = true
         } else {
-            quizView.adapter = quizAdapter
-            quizView.setSelection(category.firstUnsolvedQuizPosition)
+            quiz_view.adapter = QuizAdapter(context!!, category)
+            quiz_view.setSelection(category.firstUnsolvedQuizPosition)
         }
     }
 
     private fun setProgress(position: Int) {
         if (isAdded) {
-            progressBar.progress = position
-            progressText.text = getString(me.gr.topeka.base.R.string.quiz_of_quizzes, position, category.quizzes.size)
+            progress_horizontal.progress = position
+            progress_text.text = getString(me.gr.topeka.base.R.string.quiz_of_quizzes, position, category.quizzes.size)
         }
     }
 }

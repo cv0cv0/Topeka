@@ -4,6 +4,7 @@ import android.app.Activity
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -24,10 +25,11 @@ class CategoryAdapter(
     private val activity: Activity,
     private val onItemClickListener: (view: View, category: Category) -> Unit
 ) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+    private val inflater = LayoutInflater.from(activity)
     private var categories = activity.db.getCategories(true)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(parent.inflate(R.layout.item_category))
+        ViewHolder(parent.inflate<View>(inflater, R.layout.item_category))
 
     override fun getItemCount(): Int = categories.size
 

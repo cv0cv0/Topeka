@@ -1,7 +1,6 @@
 package me.gr.topeka.categories.ui
 
 import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
@@ -59,7 +58,7 @@ class CategoryFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             adapter?.notifyItemChanged(data!!.getStringExtra(JsonAttributes.ID))
         } else {
             super.onActivityResult(requestCode, resultCode, data)

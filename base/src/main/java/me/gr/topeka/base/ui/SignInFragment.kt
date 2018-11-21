@@ -69,11 +69,11 @@ class SignInFragment : Fragment(), AnkoLogger {
     ): View? = inflater.inflate(R.layout.fragment_sign_in, container, false).apply {
         doOnNextLayout {
             with(avatar_grid) {
-                adapter = AvatarAdapter(context)
+                adapter = AvatarAdapter(activity!!)
                 numColumns = calculateSpanCount()
                 onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
                     selectedAvatar = Avatar.values()[position]
-                    showDoneFloating()
+                    showDoneFab()
                 }
                 selectedAvatar?.let { avatar -> selectAvatar(avatar) }
             }
@@ -115,7 +115,7 @@ class SignInFragment : Fragment(), AnkoLogger {
             }
 
             override fun afterTextChanged(s: Editable) {
-                showDoneFloating()
+                showDoneFab()
             }
         }
 
@@ -198,10 +198,10 @@ class SignInFragment : Fragment(), AnkoLogger {
             requestFocusFromTouch()
             setItemChecked(avatar.ordinal, true)
         }
-        showDoneFloating()
+        showDoneFab()
     }
 
-    private fun showDoneFloating() {
+    private fun showDoneFab() {
         if (first_name.text.isNotEmpty()
             && last_initial.text.isNotEmpty()
             && selectedAvatar != null

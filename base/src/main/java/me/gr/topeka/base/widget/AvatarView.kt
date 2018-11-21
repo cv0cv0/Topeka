@@ -15,16 +15,20 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import me.gr.topeka.base.R
 
-class AvatarView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    AppCompatImageView(context, attrs, defStyleAttr), Checkable {
+class AvatarView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : AppCompatImageView(context, attrs, defStyleAttr), Checkable {
     private var isChecked = false
 
     init {
         val attributes =
             context.obtainStyledAttributes(attrs, R.styleable.AvatarView, defStyleAttr, 0)
-        val resId = attributes.getResourceId(R.styleable.AvatarView_avatar, 0)
-        attributes.recycle()
-        setAvatar(resId)
+        try {
+            val resId = attributes.getResourceId(R.styleable.AvatarView_avatar, 0)
+            if (resId != 0) setAvatar(resId)
+        } finally {
+            attributes.recycle()
+        }
     }
 
     fun setAvatar(resId: Int) {

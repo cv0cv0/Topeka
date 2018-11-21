@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import me.gr.topeka.base.R
 import me.gr.topeka.base.data.Avatar
+import me.gr.topeka.base.extension.inflate
 import me.gr.topeka.base.widget.AvatarView
 
 class AvatarAdapter(context: Context) : BaseAdapter() {
@@ -16,8 +17,8 @@ class AvatarAdapter(context: Context) : BaseAdapter() {
         private val avatars = Avatar.values()
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val itemView = convertView ?: inflater.inflate(R.layout.item_avatar, parent, false)
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val itemView = convertView ?: parent.inflate(inflater, R.layout.item_avatar)
         (itemView as AvatarView).setAvatar(avatars[position].resId)
         return itemView
     }

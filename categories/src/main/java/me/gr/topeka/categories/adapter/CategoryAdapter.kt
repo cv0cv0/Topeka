@@ -29,7 +29,7 @@ class CategoryAdapter(
     private var categories = activity.db.getCategories(true)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(parent.inflate<View>(inflater, R.layout.item_category))
+        ViewHolder(parent.inflate(inflater, R.layout.item_category))
 
     override fun getItemCount(): Int = categories.size
 

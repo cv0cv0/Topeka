@@ -5,8 +5,8 @@ import org.jetbrains.anko.debug
 import java.util.*
 
 data class Category(
-    val name: String,
     val id: String,
+    val name: String,
     val theme: Theme,
     val quizzes: List<Quiz<*>>,
     val scores: IntArray,
@@ -38,7 +38,7 @@ data class Category(
         scores[index] = if (correctlySolved) SCORE else NO_SCORE
     }
 
-    fun getScore(which: Quiz<*>) = try {
+    private fun getScore(which: Quiz<*>) = try {
         scores[quizzes.indexOf(which)]
     } catch (e: IndexOutOfBoundsException) {
         0

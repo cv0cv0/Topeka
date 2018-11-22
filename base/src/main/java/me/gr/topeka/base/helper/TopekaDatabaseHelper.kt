@@ -56,7 +56,10 @@ class TopekaDatabaseHelper private constructor(
         CategoryTable.NAME, CategoryTable.PROJECTION,
         "${CategoryTable.COLUMN_ID}=?", arrayOf(id),
         null, null, null
-    ).use { getCategory(it) }
+    ).use {
+        it.moveToFirst()
+        getCategory(it)
+    }
 
     fun getScore() = categories.sumBy { it.score }
 
@@ -132,7 +135,7 @@ class TopekaDatabaseHelper private constructor(
         Category(
             id,
             getString(1),
-            Theme.valueOf(getString(2)),
+            Theme.valueOf(getString(2).toUpperCase()),
             getQuizzes(id),
             JSONArray(getString(4)).toIntArray(),
             parseSolved(getString(3))
@@ -142,7 +145,7 @@ class TopekaDatabaseHelper private constructor(
     private fun getQuizzes(id: String): List<Quiz<*>> = readableDatabase.query(
         QuizTable.NAME,
         QuizTable.PROJECTION,
-        "${QuizTable.FK_CATEGORY} like ? ", arrayOf(id),
+        "${QuizTable.FK_CATEGORY} like ?", arrayOf(id),
         null, null, null
     ).use { cursor ->
         List(cursor.count) {

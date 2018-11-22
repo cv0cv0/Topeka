@@ -10,6 +10,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewAnimationUtils
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +37,7 @@ import me.gr.topeka.quiz.transition.SharedTextCallback
 import me.gr.topeka.quiz.ui.QuizFragment
 import me.gr.topeka.quiz.widget.SolveStateListener
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.debug
 import org.jetbrains.anko.warn
 import me.gr.topeka.base.R as R_base
 
@@ -58,10 +60,9 @@ class QuizActivity : AppCompatActivity(), AnkoLogger {
         if (savedInstanceState != null) {
             isPlaying = savedInstanceState.getBoolean(IS_PLAYING)
         }
-        val data = intent.data
-        if (data != null) {
-            if (data.path!!.startsWith("/quiz")) {
-                populate(data.lastPathSegment!!)
+        with (intent.data!!) {
+            if (path!!.startsWith("/quiz")) {
+                populate(lastPathSegment!!)
             } else {
                 warn("Path is invalid, finishing activity.")
                 launchCategory()

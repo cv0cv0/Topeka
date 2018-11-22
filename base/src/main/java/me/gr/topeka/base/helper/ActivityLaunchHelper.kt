@@ -14,7 +14,7 @@ private const val URL_SIGN_IN = "$URL_BASE/sign_in"
 private const val URL_CATEGORIES = "$URL_BASE/categories"
 private const val URL_QUIZ_BASE = "$URL_BASE/quiz"
 
-fun Context.quizIntent(category: Category) = baseIntent("$URL_QUIZ_BASE/${category.id}")
+fun Context.quizIntent(category: Category): Intent = baseIntent("$URL_QUIZ_BASE/${category.id}")
 
 fun Activity.launchSignIn(isEditMode: Boolean) = ActivityCompat.startActivity(
     this,

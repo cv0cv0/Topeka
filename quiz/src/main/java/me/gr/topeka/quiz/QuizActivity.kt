@@ -1,9 +1,6 @@
 package me.gr.topeka.quiz
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ArgbEvaluator
-import android.animation.ObjectAnimator
+import android.animation.*
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
@@ -37,7 +34,6 @@ import me.gr.topeka.quiz.transition.SharedTextCallback
 import me.gr.topeka.quiz.ui.QuizFragment
 import me.gr.topeka.quiz.widget.SolveStateListener
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.debug
 import org.jetbrains.anko.warn
 import me.gr.topeka.base.R as R_base
 
@@ -60,7 +56,7 @@ class QuizActivity : AppCompatActivity(), AnkoLogger {
         if (savedInstanceState != null) {
             isPlaying = savedInstanceState.getBoolean(IS_PLAYING)
         }
-        with (intent.data!!) {
+        with(intent.data!!) {
             if (path!!.startsWith("/quiz")) {
                 populate(lastPathSegment!!)
             } else {
@@ -101,6 +97,7 @@ class QuizActivity : AppCompatActivity(), AnkoLogger {
             image_view.isGone = true
             fragment_container.isInvisible = false
             floating_button.hide()
+            setToolbarElevation(false)
         }
     }
 
@@ -142,6 +139,7 @@ class QuizActivity : AppCompatActivity(), AnkoLogger {
 
     fun submitAnswer() {
         if (!quizFragment.showNextPage()) {
+            setToolbarElevation(true)
             quizFragment.submitAnswer()
             setResult(Activity.RESULT_OK, Intent().putExtra(JsonAttributes.ID, category.id))
         }
@@ -251,6 +249,7 @@ class QuizActivity : AppCompatActivity(), AnkoLogger {
                 revealAnimator.removeListener(this)
             }
         })
+
         val accentColor = ContextCompat.getColor(this, category.theme.accentColor)
         colorAnimator = ObjectAnimator.ofInt(
             fragment_container,
@@ -260,5 +259,34 @@ class QuizActivity : AppCompatActivity(), AnkoLogger {
         )
         colorAnimator.setEvaluator(ArgbEvaluator())
         colorAnimator.interpolator = interpolator
+
+        fragment_container.isGone = false
+        with(AnimatorSet()) {
+            play(revealAnimator).with(colorAnimator)
+            start()
+        }
+
+        ViewCompat.animate(floating_button)
+            .scaleX(0f)
+            .scaleY(0f)
+            .alpha(0f)
+            .setInterpolator(interpolator)
+            .setListener(object : ViewPropertyAnimatorListenerAdapter() {
+                override fun onAnimationEnd(view: View?) {
+                    setToolbarElevation(false)
+                    floating_button.isGone = true
+                }
+            })
+            .start()
+    }
+
+    private fun setToolbarElevation(shouldElevate: Boolean) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbar.elevation = if (shouldElevate) {
+                resources.getDimension(R_base.dimen.elevation_header)
+            } else {
+                0f
+            }
+        }
     }
 }

@@ -12,12 +12,15 @@ class FloatingCheckableButton(context: Context, attrs: AttributeSet) :
     private var checked = true
     private val attrs = intArrayOf(android.R.attr.state_checked)
 
+    init {
+        setImageResource(R.drawable.answer_quiz_fab)
+    }
+
     override fun onCreateDrawableState(extraSpace: Int): IntArray {
         val drawableState = super.onCreateDrawableState(extraSpace + 1)
         if (checked) {
             View.mergeDrawableStates(drawableState, attrs)
         }
-        setImageResource(R.drawable.answer_quiz_fab)
         return drawableState
     }
 

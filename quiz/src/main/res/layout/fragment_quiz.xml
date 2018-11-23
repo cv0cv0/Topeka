@@ -34,8 +34,8 @@
 
         <me.gr.topeka.base.widget.AvatarView
             android:id="@+id/avatar_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/size_avatar_toolbar"
+            android:layout_height="@dimen/size_avatar_toolbar"
             android:layout_below="@id/progress_horizontal"
             android:layout_marginBottom="@dimen/spacing_normal" />
 

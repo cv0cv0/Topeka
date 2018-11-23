@@ -116,7 +116,7 @@ abstract class AbsQuizView<out Q : Quiz<*>>(
             id = R_base.id.absQuizViewContainer
             orientation = LinearLayout.VERTICAL
         }
-        val textView = inflater.inflate(R.layout.quiz_edit, container, false) as TextView
+        val textView = container.inflate<TextView>(inflater, R.layout.view_question)
         with(textView) {
             text = quiz.question
             setBackgroundColor(ContextCompat.getColor(context, category.theme.primaryColor))
